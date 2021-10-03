@@ -39,11 +39,19 @@ function game() {
             default:
                 break;
         }
-        console.log("The computer chose:" + computerSelection);
+        console.log(`You chose ${playerSelection} and the Computer chose ${computerSelection}`);
     }
 
     console.log(`You have won ${playerScore} rounds.`);
     console.log(`Computer has won ${computerScore} rounds.`);
+    
+    if (playerScore > computerScore) {
+        console.log("Congratz, you beat the Computer!");
+    } else if (playerScore < computerScore) {
+        console.log("Bruh, you lost to the computer. Do better.");
+    } else {
+        console.log("It's a draaaaAAAAAAaaaaaaw.");
+    }
 
 }
 
