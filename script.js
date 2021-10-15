@@ -1,58 +1,84 @@
+alert("Man vs Machine. A fight to the death via 5 rounds of Rock, Paper, Scissors.")
+
+const buttons = document.querySelectorAll("button");
+
+var div = document.createElement('div');
+div.setAttribute('class', 'output');
+
+let pText = "";
+
+const body = document.querySelector('body');
+body.appendChild(div);
+
+
+let rounds = 0;
+function addRoundCount() {
+    rounds++;
+}
+
+
 function computerPlay() {
     const outcomesArr = ["Rock", "Paper", "Scissors"];
     const selected = outcomesArr[Math.floor(Math.random() * outcomesArr.length)];
     return selected;
 };
 
-function startRound(playerSelection, computerSelection) {
+
+let playerScore = 0;
+let computerScore = 0;
+function startRound() {
+    var playerSelection = this.className;
+    var computerSelection = computerPlay();
     pS = playerSelection.toLowerCase();
     cS = computerSelection.toLowerCase();
     if (pS === cS) {
-        console.log("It's a draw!");
+        pText = "It's a draw!";
         return 0;
     } else if ((pS === "rock" && cS === "scissors") || (pS === "paper" && cS === "rock") || (pS === "scissors" && cS === "paper")) {
-        console.log("Congr@tulashions, you win this round!");
+        playerScore++;
+        pText = "Congr@tulashions, you win this round!";
         return 1;
     } else {
-        console.log("Oh no, you are a loser.")
+        computerScore++;
+        pText = "Oh no, you are a loser."
         return -1;
     }
 }
 
-function game() {
-
-    console.log("Let's play 5 rounds of Rock, Paper Scissors. \nIf you lose you die.");
-
-    playerScore = 0;
-    computerScore = 0;
-
-    for (let i = 0; i < 5; i++) {
-        computerSelection = computerPlay();
-        const playerSelection = prompt("Choose: Rock, Paper, or Scissors?");
-        result = startRound(playerSelection, computerSelection);
-        switch(result) {
-            case 1:
-                playerScore += 1;
-                break;
-            case -1:
-                computerScore += 1;
-            default:
-                break;
-        }
-        console.log(`You chose ${playerSelection} and the Computer chose ${computerSelection}`);
-    }
-
-    console.log(`You have won ${playerScore} rounds.`);
-    console.log(`Computer has won ${computerScore} rounds.`);
-    
-    if (playerScore > computerScore) {
-        console.log("Congratz, you beat the Computer!");
-    } else if (playerScore < computerScore) {
-        console.log("Bruh, you lost to the computer. Do better.");
-    } else {
-        console.log("It's a draaaaAAAAAAaaaaaaw.");
-    }
-
+function printResult() {
+    let p = document.createElement('p');
+    p.textContent = pText;
+    div.appendChild(p);
 }
 
-game();
+function endGame() {
+    if (rounds === 5) {
+        console.log("Five stressful rounds of Rock, Paper, Scissors is over.");
+        console.log(`You have won ${playerScore} round(s).`);
+        console.log(`The computer has won ${computerScore} round(s).`);
+        winStatus = (playerScore > computerScore);
+        if (playerScore === computerScore) {
+            endText = "Man and Machine fought bravely this day, only to end in a draw.";
+        } else if (winStatus) {
+            endText = "Man has fought valiantly and prevailed.";
+        } else {
+            endText = "Machines are the superior beings afterall...";
+        }
+        
+        endTexts = ["Five stressful rounds of Rock, Paper, Scissors is over.",
+                    `You have won ${playerScore} rounds.`,
+                    `The computer has won ${computerScore} rounds.`,
+                    endText]
+
+        for(i=0; i < endTexts.length; i++) {
+            let p = document.createElement('p');
+            p.textContent = endTexts[i];
+            div.appendChild(p);
+        }
+    }
+}
+
+buttons.forEach(button => button.addEventListener("click", startRound));
+buttons.forEach(button => button.addEventListener("click", addRoundCount));
+buttons.forEach(button => button.addEventListener("click", printResult));
+buttons.forEach(button => button.addEventListener("click", endGame));
